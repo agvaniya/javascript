@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <style>
+      body {
+        background-color: rgb(23, 27, 36);
+        user-select: none;
+        display: flex;
+        justify-content: center;
+      }
+      canvas {
+        position: relative;
+        width: 800;
+        height: 600;
+        z-index: 1;
+      }
+      #score {
+        font: 35px comic-sans;
+        color: rgb(255, 255, 255);
+        position: absolute;
+        text-align: left;
+        display: inline-block;
+        padding-left: 20px;
+        z-index: 2;
+      }
+
+      #wrapper {
+        position: relative;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      <p id="score">Score: 0</p>
+      <canvas></canvas>
+    </div>
+    <script src="/color.js"></script>
+    <script src="/particle.js"></script>
+    <script src="/players.js"></script>
+    <script src="/index.js"></script>
+  </body>
+</html>
