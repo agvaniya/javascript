@@ -1,6 +1,10 @@
 <html>
   <head>
     <style>
+      * {
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+      }
       body {
         background-color: rgb(23, 27, 36);
         user-select: none;
@@ -25,7 +29,6 @@
       #wrapper {
         position: relative;
         display: inline-block;
-        touch-action: manipulation;
       }
 
       .overlay {
