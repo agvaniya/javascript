@@ -3,6 +3,7 @@ class Player {
     this.x = x;
     this.y = y;
     this.radius = radius;
+
     this.color = new Color(255, 255, 255);
     this.outline = new Color(0, 0, 255, 0.7);
   }
@@ -23,6 +24,7 @@ class Enemy {
     this.x = x;
     this.y = y;
     this.radius = radius;
+    this.org_radius = radius;
     this.color = new Color(
       Math.random() * 255,
       Math.random() * 255,
@@ -31,11 +33,16 @@ class Enemy {
     this.velocity = velocity;
     this.destructibe = false;
     this.borders = borders;
+    this.shrink = 0;
   }
 
   update() {
     this.x += this.velocity.x;
     this.y += this.velocity.y;
+    if (this.shrink > 0) {
+      this.radius -= (this.org_radius * 0.4) / 5;
+      this.shrink -= 1;
+    }
     if (
       this.x > 0 &&
       this.y > 0 &&

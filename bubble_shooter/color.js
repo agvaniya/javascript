@@ -8,6 +8,10 @@ class Color {
     [this._h, this._s, this._l] = this._hsl();
   }
 
+  clone() {
+    return new Color(this.r, this.g, this.b, this.a);
+  }
+
   get r() {
     return this._r;
   }

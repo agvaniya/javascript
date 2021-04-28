@@ -122,20 +122,26 @@ function draw(ts) {
           setTimeout(() => {
             sounds[Math.round(2 * Math.random())].play();
           });
-          c.score += Math.round(5 * en.radius);
+          c.score += 50;
           score_lbl.textContent = `Score: ${c.score}`;
 
           for (let i = 0; i < 2 + (en.radius * Math.random()) / 4; i++) {
-            const clr = en.color;
+            const clr = en.color.clone();
             clr.s = 100;
             clr.a = 1;
             c.particles.push(new Particle(en.x, en.y, clr));
           }
-
-          setTimeout(() => {
-            c.enemies.splice(i, 1);
-            c.projectiles.splice(ip, 1);
-          });
+          if (en.radius > 30) {
+            en.shrink = 5;
+            setTimeout(() => {
+              c.projectiles.splice(ip, 1);
+            });
+          } else {
+            setTimeout(() => {
+              c.enemies.splice(i, 1);
+              c.projectiles.splice(ip, 1);
+            });
+          }
         }
       });
       if (
