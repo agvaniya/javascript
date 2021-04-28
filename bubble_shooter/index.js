@@ -3,13 +3,34 @@ canvas.width = 800;
 canvas.height = 600;
 const ctx = canvas.getContext("2d");
 const score_lbl = document.querySelector("#score");
+const fin_score = document.querySelector("#finscore");
 const sounds = [
   new Audio("/blup1.wav"),
   new Audio("/blup2.wav"),
   new Audio("/blup3.mp3"),
 ];
-const FPS = 60;
-let score = 0;
+
+class Context {
+  constructor() {
+    this.FPS = 60;
+    this.score = 0;
+    this.projectiles = [];
+    this.enemies = [];
+    this.particles = [];
+    this.p = new Player(canvas.width / 2, canvas.height / 2, 10);
+    this.spawner = null;
+    score_lbl.textContent = `Score: ${this.score}`;
+  }
+
+  start() {
+    fin_score.parentElement.style.visibility = "hidden";
+    fin_score.parentElement.onclick = null;
+    draw(0);
+    this.spawner = setInterval(spawn, 1000);
+  }
+}
+
+let c = new Context();
 
 function spawn() {
   if (Math.random() < 0.4) {
@@ -23,8 +44,8 @@ function spawn() {
     Math.random() > 0.5
       ? canvas.width + Math.random() * 300
       : -300 * Math.random();
-  const theta = Math.atan2(p.y - y, p.x - x);
-  enemies.push(
+  const theta = Math.atan2(c.p.y - y, c.p.x - x);
+  c.enemies.push(
     new Enemy(
       x,
       y,
@@ -38,22 +59,15 @@ function spawn() {
   );
 }
 
-const projectiles = [];
-const enemies = [];
-const particles = [];
-const p = new Player(canvas.width / 2, canvas.height / 2, 10);
-
-const spawner = setInterval(spawn, 1000);
-
 addEventListener("click", (event) => {
   const x = event.x - canvas.parentElement.offsetLeft;
   const y = event.y - canvas.parentElement.offsetTop;
-  dx = x - p.x;
+  dx = x - c.p.x;
   if (dx === 0) dx = 0.1;
-  const dy = y - p.y;
+  const dy = y - c.p.y;
   const theta = Math.atan2(dy, dx);
-  projectiles.push(
-    new Projectile(p.x, p.y, 5, {
+  c.projectiles.push(
+    new Projectile(c.p.x, c.p.y, 5, {
       x: 6 * Math.cos(theta),
       y: 6 * Math.sin(theta),
     })
@@ -65,13 +79,13 @@ let back_ts = 0;
 function draw(ts) {
   id = requestAnimationFrame(draw);
 
-  if (ts - back_ts >= 1000 / FPS) {
+  if (ts - back_ts >= 1000 / c.FPS) {
     ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fill();
     // ctx.clearRect(0,0, canvas.width, canvas.height)
-    p.draw(ctx);
-    projectiles.forEach((pr, i) => {
+    c.p.draw(ctx);
+    c.projectiles.forEach((pr, i) => {
       pr.draw(ctx);
       pr.update();
       if (
@@ -81,40 +95,46 @@ function draw(ts) {
         pr.y + pr.radius < 0
       )
         setTimeout(() => {
-          projectiles.splice(i, 1);
+          c.projectiles.splice(i, 1);
         });
     });
 
-    enemies.forEach((en, i) => {
+    c.enemies.forEach((en, i) => {
       en.update();
       en.draw(ctx);
-      if (en.collide(p)) {
+      if (en.collide(c.p)) {
         setTimeout(() => {
           const snd = new Audio("/expl3.wav");
           snd.play();
         });
-        console.log("end");
+        fin_score.textContent = `Score: ${c.score}`;
+        fin_score.parentElement.style.visibility = "visible";
+        fin_score.parentElement.onclick = () => {
+          c = new Context();
+          c.start();
+        };
+        // the end
         cancelAnimationFrame(id);
-        clearInterval(spawner);
+        clearInterval(c.spawner);
       }
-      projectiles.forEach((pr, ip) => {
+      c.projectiles.forEach((pr, ip) => {
         if (en.collide(pr)) {
           setTimeout(() => {
             sounds[Math.round(2 * Math.random())].play();
           });
-          score += Math.round(5 * en.radius);
-          score_lbl.textContent = `Score: ${score}`;
+          c.score += Math.round(5 * en.radius);
+          score_lbl.textContent = `Score: ${c.score}`;
 
           for (let i = 0; i < 2 + (en.radius * Math.random()) / 4; i++) {
-            const c = en.color;
-            c.s = 100;
-            c.a = 1;
-            particles.push(new Particle(en.x, en.y, c));
+            const clr = en.color;
+            clr.s = 100;
+            clr.a = 1;
+            c.particles.push(new Particle(en.x, en.y, clr));
           }
 
           setTimeout(() => {
-            enemies.splice(i, 1);
-            projectiles.splice(ip, 1);
+            c.enemies.splice(i, 1);
+            c.projectiles.splice(ip, 1);
           });
         }
       });
@@ -126,19 +146,19 @@ function draw(ts) {
           en.y + en.radius < 0)
       )
         setTimeout(() => {
-          enemies.splice(i, 1);
+          c.enemies.splice(i, 1);
         });
     });
-    particles.forEach((pa, i) => {
+    c.particles.forEach((pa, i) => {
       pa.update();
       pa.draw(ctx);
       if (Math.hypot(pa.velocity.x, pa.velocity.y) < 0.2)
         setTimeout(() => {
-          particles.splice(i, 1);
+          c.particles.splice(i, 1);
         });
     });
     back_ts = ts;
   }
 }
 
-draw(0);
+c.start();
