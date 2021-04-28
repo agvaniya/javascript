@@ -5,9 +5,9 @@ const ctx = canvas.getContext("2d");
 const score_lbl = document.querySelector("#score");
 const fin_score = document.querySelector("#finscore");
 const sounds = [
-  new Audio("/blup1.wav"),
-  new Audio("/blup2.wav"),
-  new Audio("/blup3.mp3"),
+  new Audio("blup1.wav"),
+  new Audio("blup2.wav"),
+  new Audio("blup3.mp3"),
 ];
 
 class Context {
@@ -104,7 +104,7 @@ function draw(ts) {
       en.draw(ctx);
       if (en.collide(c.p)) {
         setTimeout(() => {
-          const snd = new Audio("/expl3.wav");
+          const snd = new Audio("expl3.wav");
           snd.play();
         });
         fin_score.textContent = `Score: ${c.score}`;
