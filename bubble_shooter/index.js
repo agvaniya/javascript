@@ -59,7 +59,7 @@ function spawn() {
   );
 }
 
-addEventListener("click", (event) => {
+event_handler = (event) => {
   const x = event.x - canvas.parentElement.offsetLeft;
   const y = event.y - canvas.parentElement.offsetTop;
   dx = x - c.p.x;
@@ -72,7 +72,9 @@ addEventListener("click", (event) => {
       y: 6 * Math.sin(theta),
     })
   );
-});
+};
+//addEventListener("click", event_handler);
+addEventListener("pointerup", event_handler);
 
 let back_ts = 0;
 
