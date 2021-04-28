@@ -1,6 +1,6 @@
 const canvas = document.querySelector("canvas");
-canvas.width = 800;
-canvas.height = 600;
+canvas.width = 1024;
+canvas.height = 768;
 const ctx = canvas.getContext("2d");
 const score_lbl = document.querySelector("#score");
 const fin_score = document.querySelector("#finscore");
@@ -45,14 +45,15 @@ function spawn() {
       ? canvas.width + Math.random() * 300
       : -300 * Math.random();
   const theta = Math.atan2(c.p.y - y, c.p.x - x);
+  vmult = 1 + Math.random(2);
   c.enemies.push(
     new Enemy(
       x,
       y,
       3 + 77 * Math.random(),
       {
-        x: 3 * Math.cos(theta),
-        y: 3 * Math.sin(theta),
+        x: vmult * Math.cos(theta),
+        y: vmult * Math.sin(theta),
       },
       { width: canvas.width, height: canvas.height }
     )
