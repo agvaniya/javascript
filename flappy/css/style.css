@@ -1,0 +1,30 @@
+body{
+   display: flex;
+   background-color: black;
+   flex-direction: column;
+}
+
+#container {
+   
+   width: 1024px;
+   height: 768px;
+}
+
+.head-ttl{
+   display: flex;
+   max-width: 1024px;
+   max-height: 120px;
+   background: linear-gradient(45deg, #6b74cc,#0f1122);
+   color: chartreuse;
+   font-family: fantasy;
+   font-weight:  bold;
+   font-size: x-large;
+   text-align: center;
+   flex-direction: column;
+}
+
+#score {
+   position:absolute;
+   top:100px;
+   left:30px;
+}
