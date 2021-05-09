@@ -23,7 +23,7 @@ export class Bird {
   }
 
   collide(other) {
-    return Math.hypot(this.x - other.x, this.y - other.y) < this.sprite_sz
+    return Math.hypot(this.x - other.x, this.y - other.y) < 48
   }
 
   draw(ctx, frame) {
