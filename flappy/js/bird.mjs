@@ -14,7 +14,7 @@ export class Bird {
   }
 
   update(ts) {
-    const dt = (ts - this.t) / 300
+    const dt = (ts - this.t) / 330
     const g = 40
     const vt = this.v + g * dt
     this.y += 0.5 * (this.v + vt) * dt
@@ -25,6 +25,7 @@ export class Bird {
 
   flap() {
     this.v -= 70
+    if (this.v < -90) this.v = -90
     this.ani_frames = this.flap_frames
 
   }
