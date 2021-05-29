@@ -15,7 +15,7 @@ image.src = 'res/flappy.png'
 let frame = 0
 const SPRITE_SZ = 64
 const EARTH = canvas.height - 100
-
+let game_over = false
 let score = 0
 
 const bird = new Bird(70, canvas.height / 2, 0, image, SPRITE_SZ)
@@ -83,11 +83,14 @@ function update(ts) {
   }
   if (bird.y > EARTH) {
     bird.y = EARTH
-    bird.v = -1
+    bird.v = -20
+    game_over = true
   }
   rocks.forEach((rock, ix) => {
     rock.update(ts)
-    if (rock.x + SPRITE_SZ < 0) {
+    if (bird.collide(rock)){
+      game_over = true   
+    } else if (rock.x + SPRITE_SZ < 0) {
       setTimeout(() => {
         rocks.splice(ix, 1)
         score += 1
@@ -119,6 +122,18 @@ document.addEventListener('pointerup', (ev) => {
   bird.flap()
 })
 
+function drawGameOver() {
+  clearInterval(spawnInterval)
+  ctx.fillStyle = 'rgb(85,120,225)'
+  ctx.fillRect(0, 0, canvas.width, EARTH)
+  ctx.fillStyle = 'rgb(80, 66, 36)'
+  ctx.fillRect(0, EARTH, canvas.width, canvas.height)
+  ctx.font = '65px serif'
+  ctx.fillStyle = 'rgb(180, 66, 36)'
+  ctx.fillText('Game Over!',canvas.width/2 - 140, canvas.height/2)
+
+}
+
 function draw(ts) {
   ctx.fillStyle = 'rgb(85,120,225)'
   ctx.fillRect(0, 0, canvas.width, EARTH)
@@ -135,7 +150,11 @@ function draw(ts) {
   frame = (frame + 0.1) % 4
   update(ts)
   score_lbl.textContent = 'Score: ' + score
-  requestAnimationFrame(draw)
+  if (!game_over) requestAnimationFrame(draw)
+  else drawGameOver()
+  
 }
+
+
 
 draw(0)
