@@ -1,0 +1,76 @@
+body {
+	background-color: rgb(29, 28, 32);
+	flex-wrap: wrap;
+	flex-direction: row;
+	
+}
+
+h1 {
+	font-size: 65px;
+	font-family: Cambria,
+	Cochin,
+	Georgia,
+	Times,
+	'Times New Roman',
+	serif;
+	color:lawngreen;
+}
+
+.ld {
+background-color: rgb(9, 2, 37);
+padding:5vh;
+margin: 5vh;
+border-radius: 30px;
+}
+a:link {
+	font-size: xx-large;
+	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+	font-style: oblique;
+	text-decoration: none;
+	color: #565568;
+
+}
+ a:visited{
+	font-size: xx-large;
+	font-family: Cambria,
+	Cochin,
+	Georgia,
+	Times,
+	'Times New Roman',
+	serif;
+	font-style: oblique;
+	text-decoration: none;
+	color: #565568;
+ }
+
+ a:hover{
+font-size: xx-large;
+font-family: Cambria,
+Cochin,
+Georgia,
+Times,
+'Times New Roman',
+serif;
+font-style:oblique;
+text-decoration: none;
+color: lawngreen;
+ } 
+ 
+ a:active{
+	font-size: x-large;
+	font-family: Cambria,
+	Cochin,
+	Georgia,
+	Times,
+	'Times New Roman',
+	serif;
+	font-style: oblique;
+	text-decoration: none;
+	color:lawngreen;
+ }
+
+ .main {
+	 margin-left: 4vw;
+	 max-width: 60%;
+	 justify-content:center;
+ }
